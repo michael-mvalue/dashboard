@@ -3,11 +3,14 @@ import type { NextConfig } from "next";
 import path from "path";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  devIndicators: false,
-  webpack: (config) => {
-    config.resolve.alias["@"] = path.resolve(__dirname);
-  }
+  webpack(config) {
+    config.resolve.alias = {
+      ...(config.resolve.alias || {}),
+      "@": path.resolve(__dirname),
+    };
+
+    return config; // ✅ CRITICAL: must return config
+  },
 };
 
 export default nextConfig;
