@@ -8,7 +8,7 @@ RUN npm install -g pm2
 
 # Copy only dep first
 COPY package*.json ./
-RUN npm ci --omit=dev
+RUN npm install --omit=dev
 
 COPY . .
 
