@@ -15,7 +15,7 @@ export default function JobPage() {
   const [jobs, setJobs] = useState<Job[]>([]);
 
   useEffect(() => {
-    const socket = new WebSocket("ws://localhost:8000/ws/job");
+    const socket = new WebSocket("ws://localhost:9000/ws/job");
 
     // eslint-disable-next-line no-console
     socket.onopen = () => console.log("✅ WebSocket connected");

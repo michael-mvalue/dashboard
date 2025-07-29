@@ -16,6 +16,7 @@ import clsx from "clsx";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 
+import { title } from "@/lib/components/primitives";
 import { siteConfig } from "@/lib/config";
 import ThemeSwitch from "@/lib/components/ThemeSwitch";
 
@@ -24,11 +25,16 @@ export default function Navbar() {
 
   return (
     <HeroUINavbar maxWidth="2xl" position="sticky">
-      <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
+      <NavbarContent className="basis-1/5 sm:basis-full " justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-2" href="/">
             <Image alt="logo" height={30} src="/icon.svg" width={30} />
-            <p className="font-bold text-inherit">PioSolver Dashboard</p>
+            <div className="inline-block max-w-xl text-center justify-center">
+              <span className={title({ color: "violet", size: "xs" })}>
+                PioSolver&nbsp;
+              </span>
+              <span className={title({ size: "xs" })}>Dashboard</span>
+            </div>
           </NextLink>
         </NavbarBrand>
         <ul className="hidden sm:flex gap-4 justify-start ml-2">

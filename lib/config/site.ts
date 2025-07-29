@@ -12,6 +12,10 @@ export const siteConfig = {
       label: "Worker",
       href: "/worker",
     },
+    {
+      label: "User Input",
+      href: "/input",
+    },
   ],
   navMenuItems: [
     {
@@ -21,6 +25,10 @@ export const siteConfig = {
     {
       label: "Worker",
       href: "/worker",
+    },
+    {
+      label: "User Input",
+      href: "/input",
     },
   ],
   links: {},

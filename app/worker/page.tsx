@@ -15,7 +15,7 @@ export default function WorkerPage() {
   const [workers, setWorkers] = useState<Worker[]>([]);
 
   useEffect(() => {
-    const socket = new WebSocket("ws://localhost:8000/ws/worker");
+    const socket = new WebSocket("ws://localhost:9000/ws/worker");
 
     // eslint-disable-next-line no-console
     socket.onopen = () => console.log("✅ WebSocket connected");
