@@ -1,42 +1,48 @@
+import type { JobStatus } from "@/lib/types";
+
 import { Spinner } from "@heroui/spinner";
 import { Chip } from "@heroui/chip";
 import { FaCheckCircle } from "react-icons/fa";
 import { useTheme } from "next-themes";
 
+import { upperCaseFirstLetter } from "@/lib/utils";
+
 interface JobStatusCellProps {
-  value: string;
+  status: JobStatus;
 }
 
-export default function JobStatusTag({ value }: JobStatusCellProps) {
+export default function JobStatusTag({ status }: JobStatusCellProps) {
   const { resolvedTheme } = useTheme();
 
   const variant = resolvedTheme === "dark" ? "flat" : "solid";
 
   return (
     <span className={"flex justify-center items-center"}>
-      {value === "running" ? (
+      {status === "running" ? (
         <Chip
           className="gap-1 text-white"
           color="secondary"
           startContent={
-            <Spinner color="secondary" size="sm" variant="gradient" />
+            <Spinner color={"secondary"} size="sm" variant="gradient" />
           }
-          variant={variant}
+          variant={"flat"}
         >
-          <span>{value}</span>
+          <span className="text-violet-600">
+            {upperCaseFirstLetter(status)}
+          </span>
         </Chip>
-      ) : value === "completed" ? (
+      ) : status === "done" ? (
         <Chip
           className="gap-1 text-white"
           color="success"
           startContent={<FaCheckCircle size={18} />}
           variant={variant}
         >
-          {value}
+          {upperCaseFirstLetter(status)}
         </Chip>
       ) : (
         <Chip className="gap-1" variant="flat">
-          {value}
+          {upperCaseFirstLetter(status)}
         </Chip>
       )}
     </span>

@@ -39,7 +39,7 @@ const GridComponent = ({ rowData, columnDefs }: GridComponentProps) => {
       : themeQuartz.withPart(colorSchemeLight);
 
   return (
-    <div className="w-full h-screen ag-theme-quartz">
+    <div className="w-full h-full ag-theme-quartz">
       <AgGridReact
         columnDefs={columnDefs}
         defaultColDef={defaultColDef}

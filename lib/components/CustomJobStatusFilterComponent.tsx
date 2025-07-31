@@ -15,7 +15,7 @@ const TAG_OPTIONS = ["running", "pending", "completed"];
 
 function CustomTagFilterComponentFunc(
   props: IFilterParams,
-  ref: React.Ref<any>
+  ref: React.Ref<any>,
 ) {
   const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
 
