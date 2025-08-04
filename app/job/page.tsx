@@ -3,6 +3,7 @@
 import type { Job } from "@/lib/types";
 import type { SortDescriptor } from "@heroui/react";
 
+import { useTheme } from "next-themes";
 import dayjs from "dayjs";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -23,6 +24,9 @@ import {
   TableHeader,
   TableRow,
 } from "@heroui/react";
+import CodeMirror from "@uiw/react-codemirror";
+import { json } from "@codemirror/lang-json";
+import { materialDark, materialLight } from "@uiw/codemirror-theme-material";
 
 import { title } from "@/lib/components/primitives";
 import JobStatusTag from "@/lib/components/JobStatusTag";
@@ -39,6 +43,7 @@ const limitOption = [
 ];
 
 export default function JobPage() {
+  const { resolvedTheme } = useTheme();
   const [loading, setLoading] = useState<boolean>(true);
   const [jobs, setJobs] = useState<Job[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -46,9 +51,11 @@ export default function JobPage() {
   const [limit, setLimit] = useState<number>(5);
   const [isUPIModalOpen, setUPIModalOpen] = useState<boolean>(false);
   const [upiTitle, setUpiTitle] = useState<string>("");
+  const [isMetadataModalOpen, setMetadataModalOpen] = useState<boolean>(false);
   const [isLogModalOpen, setLogModalOpen] = useState<boolean>(false);
   const [logs, setLogs] = useState<string[]>([]);
   const [upiContent, setUpiContent] = useState<string>("");
+  const [metadataContent, setMetadataContent] = useState<string>("");
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
     column: "worker_id",
     direction: "ascending",
@@ -171,6 +178,22 @@ export default function JobPage() {
     setUpiTitle(fileName);
   };
 
+  const viewMetadata = (content: string) => {
+    setMetadataModalOpen(true);
+    let formatted = "";
+
+    try {
+      const parsed = JSON.parse(content);
+
+      formatted = JSON.stringify(parsed, null, 4);
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(`Error During parsing metadata content: ${err}`);
+      formatted = JSON.stringify("{}", null, 0);
+    }
+    setMetadataContent(formatted);
+  };
+
   const viewLogs = (logs: string[]) => {
     setLogModalOpen(true);
     setLogs(logs);
@@ -180,6 +203,11 @@ export default function JobPage() {
     setUPIModalOpen(false);
     setUpiTitle("");
     setUpiContent("");
+  };
+
+  const closeMetadataModal = () => {
+    setMetadataModalOpen(false);
+    setMetadataContent("");
   };
 
   const closeLogModal = () => {
@@ -226,11 +254,16 @@ export default function JobPage() {
           </Button>
         );
 
-      case "result":
+      case "result_content":
         return (
           <>
-            {item.result && (
-              <Button color="success" size="sm" variant="flat">
+            {item.result_content && item.result_content.length > 0 && (
+              <Button
+                color="success"
+                size="sm"
+                variant="flat"
+                onPress={() => viewMetadata(item.result_content ?? "")}
+              >
                 Result
               </Button>
             )}
@@ -340,7 +373,7 @@ export default function JobPage() {
             Status
           </TableColumn>
           <TableColumn key="logs">Logs</TableColumn>
-          <TableColumn key="result">Result</TableColumn>
+          <TableColumn key="result_content">Result</TableColumn>
           <TableColumn key="duration">Duration</TableColumn>
           <TableColumn key="timestamps.created_at">created_at</TableColumn>
           <TableColumn key="timestamps.assigned_at">assigned_at</TableColumn>
@@ -372,6 +405,32 @@ export default function JobPage() {
           <ModalHeader className="flex flex-col gap-1">{upiTitle}</ModalHeader>
           <ModalBody>
             <div className="whitespace-pre-wrap">{upiContent}</div>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+
+      <Modal
+        backdrop="blur"
+        isOpen={isMetadataModalOpen}
+        scrollBehavior="inside"
+        size={"5xl"}
+        onClose={closeMetadataModal}
+      >
+        <ModalContent>
+          <ModalHeader className="flex flex-col gap-1">Metadata</ModalHeader>
+          <ModalBody>
+            {metadataContent && metadataContent.length > 0 && (
+              <CodeMirror
+                basicSetup={{
+                  lineNumbers: true,
+                  foldGutter: true,
+                }}
+                className="text-lg"
+                extensions={[json()]}
+                theme={resolvedTheme === "dark" ? materialDark : materialLight}
+                value={JSON.stringify(JSON.parse(metadataContent), null, 2)}
+              />
+            )}
           </ModalBody>
         </ModalContent>
       </Modal>

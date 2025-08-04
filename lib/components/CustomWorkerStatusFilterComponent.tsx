@@ -19,13 +19,6 @@ function CustomTagFilterComponentFunc(
 ) {
   const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
 
-  const onTagChange = (tag: string, checked: boolean) => {
-    const updated = new Set(selectedTags);
-
-    checked ? updated.add(tag) : updated.delete(tag);
-    setSelectedTags(updated);
-  };
-
   useEffect(() => {
     props.filterChangedCallback?.();
   }, [selectedTags]);

@@ -8,6 +8,7 @@ export type JobStatus = "running" | "pending" | "done";
 export interface Job {
   _id: string;
   file_content?: string;
+  result_content?: string;
   result?: string;
   job_id: string;
   worker_id: string;
@@ -20,6 +21,7 @@ export interface Job {
   errors: string;
   logs: string[];
   s3_key: string;
+  result_s3_key?: string;
   status: JobStatus;
 }
 

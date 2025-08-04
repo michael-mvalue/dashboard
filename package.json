@@ -10,6 +10,7 @@
     "format": "npx prettier --write ."
   },
   "dependencies": {
+    "@codemirror/lang-json": "^6.0.2",
     "@heroui/button": "2.2.21",
     "@heroui/checkbox": "^2.3.20",
     "@heroui/chip": "^2.2.17",
@@ -26,6 +27,9 @@
     "@heroui/theme": "2.4.17",
     "@react-aria/ssr": "3.9.9",
     "@react-aria/visually-hidden": "3.8.24",
+    "@uiw/codemirror-theme-material": "^4.24.2",
+    "@uiw/codemirror-themes": "^4.24.2",
+    "@uiw/react-codemirror": "^4.24.2",
     "ag-grid-react": "^33.3.2",
     "clsx": "2.1.1",
     "dayjs": "^1.11.13",
