@@ -283,20 +283,20 @@ export default function JobPage() {
 
         return `${minutes}m ${seconds}s`;
 
-      case "timestamps.created_at":
+      case "timestamps.assigned_at":
         return (
           <div>
-            {dayjs(item?.timestamps?.created_at).format(
+            {dayjs(item?.timestamps?.assigned_at).format(
               "MM/DD/YYYY hh:mm:ss A",
             )}
           </div>
         );
 
-      case "timestamps.assigned_at":
+      case "timestamps.started_at":
         return (
           <div>
-            {item?.timestamps?.assigned_at !== null &&
-              dayjs(item?.timestamps?.assigned_at).format(
+            {item?.timestamps?.started_at !== null &&
+              dayjs(item?.timestamps?.started_at).format(
                 "MM/DD/YYYY hh:mm:ss A",
               )}
           </div>
@@ -375,9 +375,9 @@ export default function JobPage() {
           <TableColumn key="logs">Logs</TableColumn>
           <TableColumn key="result_content">Result</TableColumn>
           <TableColumn key="duration">Duration</TableColumn>
-          <TableColumn key="timestamps.created_at">created_at</TableColumn>
-          <TableColumn key="timestamps.assigned_at">assigned_at</TableColumn>
-          <TableColumn key="timestamps.completed_at">completed_at</TableColumn>
+          <TableColumn key="timestamps.assigned_at">Assigned</TableColumn>
+          <TableColumn key="timestamps.started_at">Started</TableColumn>
+          <TableColumn key="timestamps.completed_at">Completed</TableColumn>
         </TableHeader>
         <TableBody
           items={sortedJobs ?? []}

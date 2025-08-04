@@ -14,8 +14,9 @@ export interface Job {
   worker_id: string;
   bucket_name: string;
   timestamps: {
-    created_at: string;
     assigned_at: string;
+    updated_at: string;
+    started_at: null | string;
     completed_at: null | string;
   };
   errors: string;
